@@ -27,7 +27,7 @@ export async function getChildTeachers(childId: string): Promise<Teacher[]> {
   const teachers: Teacher[] = [];
 
   for (const cls of classes ?? []) {
-    const t = cls.teachers as Record<string, unknown> | null;
+    const t = cls.teachers as unknown as Record<string, unknown> | null;
     if (!t) continue;
     const id = t.id as string;
     if (seen.has(id)) continue;
