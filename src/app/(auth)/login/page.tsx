@@ -29,6 +29,21 @@ export default function LoginPage() {
       return;
     }
 
+    // Verify the user has a parent account before redirecting
+    const { data: { user } } = await supabase.auth.getUser();
+    const { data: account } = await supabase
+      .from("parent_accounts")
+      .select("id")
+      .eq("auth_id", user!.id)
+      .single();
+
+    if (!account) {
+      await supabase.auth.signOut();
+      setError("No parent account found for this email. This portal is for parents only.");
+      setLoading(false);
+      return;
+    }
+
     router.push("/");
     router.refresh();
   }
