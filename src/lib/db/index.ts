@@ -9,3 +9,5 @@ export {
 } from "./attendance";
 export { getChildScheduleForDay, getChildTodaySchedule, getChildWeekSchedule } from "./schedule";
 export { getChildExams, getChildExamsByClass, getChildUpcomingExams } from "./exams";
+export { getParentMessages, getUnreadParentMessageCount } from "./messages";
+export { getChildTeachers } from "./teachers";

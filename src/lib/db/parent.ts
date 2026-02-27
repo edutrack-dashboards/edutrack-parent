@@ -47,17 +47,23 @@ export async function getCurrentParent(): Promise<ParentProfile> {
   }
 
   const supabase = await createClient();
-  const { data } = await supabase
-    .from("students")
-    .select("parent_name, parent_phone")
-    .ilike("parent_email", email)
-    .limit(1)
-    .maybeSingle();
+
+  // Verify the user has a parent_accounts record (explicit role check)
+  const { data: account, error: accountError } = await supabase
+    .from("parent_accounts")
+    .select("id, name, email, phone")
+    .eq("auth_id", user.id)
+    .single();
+
+  if (accountError || !account) {
+    throw new Error("Not authorized as a parent");
+  }
 
   return {
-    email,
-    name: (data?.parent_name as string) || getFallbackParentName(email),
-    phone: (data?.parent_phone as string) ?? undefined,
+    id: account.id as string,
+    email: (account.email as string) ?? email,
+    name: (account.name as string) || getFallbackParentName(email),
+    phone: (account.phone as string) ?? undefined,
   };
 }
 

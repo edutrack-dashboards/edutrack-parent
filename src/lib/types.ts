@@ -3,6 +3,7 @@ export type AttendanceStatus = "present" | "absent" | "late" | "excused";
 export type GradeLetter = "A+" | "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C" | "C-" | "D+" | "D" | "F";
 
 export interface ParentProfile {
+  id: string;
   email: string;
   name: string;
   phone?: string;
@@ -74,4 +75,32 @@ export interface ParentContext {
   parent: ParentProfile;
   children: Student[];
   selectedChild: Student | null;
+}
+
+export interface Teacher {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+}
+
+export interface Message {
+  id: string;
+  teacherId: string;
+  teacherName: string;
+  studentId: string;
+  studentName: string;
+  subject: string;
+  preview: string;
+  lastMessageAt: string;
+  isRead: boolean;
+  thread: MessageItem[];
+}
+
+export interface MessageItem {
+  id: string;
+  senderName: string;
+  content: string;
+  sentAt: string;
+  isFromTeacher: boolean;
 }

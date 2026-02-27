@@ -8,6 +8,7 @@ import {
   GraduationCap,
   ClipboardCheck,
   CalendarDays,
+  MessageSquare,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/grades", label: "Grades", icon: GraduationCap },
   { href: "/attendance", label: "Attendance", icon: ClipboardCheck },
   { href: "/schedule", label: "Schedule", icon: CalendarDays },
+  { href: "/messages", label: "Messages", icon: MessageSquare },
 ];
 
 export function Sidebar({ isCollapsed, onToggleCollapse, parentName }: SidebarProps) {

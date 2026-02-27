@@ -8,6 +8,7 @@ const pageTitles: Record<string, string> = {
   "/grades": "Grade Progress",
   "/attendance": "Attendance",
   "/schedule": "Schedule",
+  "/messages": "Messages",
   "/profile": "Parent Profile",
 };
 

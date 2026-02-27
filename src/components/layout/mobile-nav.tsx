@@ -7,7 +7,7 @@ import {
   Users,
   GraduationCap,
   ClipboardCheck,
-  CalendarDays,
+  MessageSquare,
   UserCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ const navItems = [
   { href: "/children", label: "Children", icon: Users },
   { href: "/grades", label: "Grades", icon: GraduationCap },
   { href: "/attendance", label: "Attend.", icon: ClipboardCheck },
-  { href: "/schedule", label: "Schedule", icon: CalendarDays },
+  { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/profile", label: "Profile", icon: UserCircle },
 ];
 
