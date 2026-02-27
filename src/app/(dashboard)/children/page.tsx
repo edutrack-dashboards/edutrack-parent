@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookOpen, ClipboardCheck, GraduationCap, Users } from "lucide-react";
 import {
+  getCurrentParent,
   getParentChildren,
   getChildAverageGrade,
   getChildAttendanceRate,
@@ -10,7 +11,8 @@ import { getPersonFullName } from "@/lib/utils";
 import { NoChildrenState } from "@/components/layout/no-children-state";
 
 export default async function ChildrenPage() {
-  const children = await getParentChildren();
+  const parent = await getCurrentParent();
+  const children = await getParentChildren(parent.email);
 
   if (children.length === 0) {
     return <NoChildrenState />;

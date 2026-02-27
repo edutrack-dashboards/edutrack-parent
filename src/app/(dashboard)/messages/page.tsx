@@ -3,11 +3,11 @@ import { MessagesClient } from "@/components/messages/messages-client";
 import type { Teacher } from "@/lib/types";
 
 export default async function MessagesPage() {
-  const [initialMessages, parent, children] = await Promise.all([
+  const [initialMessages, parent] = await Promise.all([
     getParentMessages(),
     getCurrentParent(),
-    getParentChildren(),
   ]);
+  const children = await getParentChildren(parent.email);
 
   // Fetch teachers for each child in parallel
   const teachersByChild: Record<string, Teacher[]> = {};

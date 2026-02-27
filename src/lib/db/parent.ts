@@ -67,10 +67,11 @@ export async function getCurrentParent(): Promise<ParentProfile> {
   };
 }
 
-export async function getParentChildren(): Promise<Student[]> {
+export async function getParentChildren(parentEmail?: string): Promise<Student[]> {
   const user = await getCurrentAuthUser();
-  const email = user.email?.toLowerCase();
 
+  // Prefer the parent_accounts email (consistent with RLS policy) over auth email
+  const email = parentEmail?.toLowerCase() ?? user.email?.toLowerCase();
   if (!email) return [];
 
   const supabase = await createClient();
@@ -85,9 +86,10 @@ export async function getParentChildren(): Promise<Student[]> {
   return (data ?? []).map(mapStudentRow);
 }
 
-export async function getChildById(childId: string): Promise<Student | null> {
+export async function getChildById(childId: string, parentEmail?: string): Promise<Student | null> {
   const user = await getCurrentAuthUser();
-  const email = user.email?.toLowerCase();
+
+  const email = parentEmail?.toLowerCase() ?? user.email?.toLowerCase();
   if (!email) return null;
 
   const supabase = await createClient();
@@ -103,10 +105,8 @@ export async function getChildById(childId: string): Promise<Student | null> {
 }
 
 export async function resolveParentContext(preferredChildId?: string): Promise<ParentContext> {
-  const [parent, children] = await Promise.all([
-    getCurrentParent(),
-    getParentChildren(),
-  ]);
+  const parent = await getCurrentParent();
+  const children = await getParentChildren(parent.email);
 
   if (children.length === 0) {
     return {
