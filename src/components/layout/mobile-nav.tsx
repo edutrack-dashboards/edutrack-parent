@@ -17,11 +17,11 @@ const navItems = [
   { href: "/children", label: "Children", icon: Users },
   { href: "/grades", label: "Grades", icon: GraduationCap },
   { href: "/attendance", label: "Attend.", icon: ClipboardCheck },
-  { href: "/messages", label: "Messages", icon: MessageSquare },
+  { href: "/messages", label: "Messages", icon: MessageSquare, badge: true },
   { href: "/profile", label: "Profile", icon: UserCircle },
 ];
 
-export function MobileNav() {
+export function MobileNav({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const selectedChildId = searchParams.get("child");
@@ -53,6 +53,11 @@ export function MobileNav() {
             )}
           >
             <Icon className="h-5 w-5" />
+            {item.badge && unreadCount > 0 && (
+              <span className="absolute top-1 right-1/4 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                {unreadCount}
+              </span>
+            )}
             <span className="font-medium">{item.label}</span>
           </Link>
         );

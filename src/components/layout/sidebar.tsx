@@ -18,6 +18,7 @@ interface SidebarProps {
   isCollapsed: boolean;
   onToggleCollapse: () => void;
   parentName: string;
+  unreadCount: number;
 }
 
 const navItems = [
@@ -26,10 +27,10 @@ const navItems = [
   { href: "/grades", label: "Grades", icon: GraduationCap },
   { href: "/attendance", label: "Attendance", icon: ClipboardCheck },
   { href: "/schedule", label: "Schedule", icon: CalendarDays },
-  { href: "/messages", label: "Messages", icon: MessageSquare },
+  { href: "/messages", label: "Messages", icon: MessageSquare, badge: true },
 ];
 
-export function Sidebar({ isCollapsed, onToggleCollapse, parentName }: SidebarProps) {
+export function Sidebar({ isCollapsed, onToggleCollapse, parentName, unreadCount }: SidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const selectedChildId = searchParams.get("child");
@@ -88,7 +89,7 @@ export function Sidebar({ isCollapsed, onToggleCollapse, parentName }: SidebarPr
               key={item.href}
               href={withSelectedChild(item.href)}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 active
                   ? "bg-blue-50 text-blue-700"
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
@@ -98,6 +99,14 @@ export function Sidebar({ isCollapsed, onToggleCollapse, parentName }: SidebarPr
             >
               <Icon className="h-5 w-5 shrink-0" />
               {!isCollapsed && <span className="flex-1">{item.label}</span>}
+              {!isCollapsed && item.badge && unreadCount > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold text-white">
+                  {unreadCount}
+                </span>
+              )}
+              {isCollapsed && item.badge && unreadCount > 0 && (
+                <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500" />
+              )}
             </Link>
           );
         })}
